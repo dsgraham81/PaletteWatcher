@@ -27,7 +27,7 @@ public class Palette {
 
 
     public Palette(){
-        setFile(default_palette);
+//        setFile(default_palette);
     }
 
     public void setFile(String file) {
@@ -44,7 +44,10 @@ public class Palette {
     }
 
     public void updatePaletteFile() {
-        final String cwd = textureFile.getAbsolutePath();
+        String cwd = null;
+        if (textureFile != null){
+             cwd = textureFile.getAbsolutePath();
+        }
         final JFileChooser fileChooser = new JFileChooser(cwd);
         try {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -72,6 +75,7 @@ public class Palette {
     }
 
     public void renderRow(SpriteBatch batch, OrthographicCamera camera) {
+        if (paletteTexture == null) return;
         batch.setColor(Color.WHITE);
         paletteRowTexRegion.setRegion(0f, paletteIndex/255f, 1f, (paletteIndex+1)/255f);
         float y = camera.viewportHeight - 105;

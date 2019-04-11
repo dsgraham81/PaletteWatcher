@@ -65,17 +65,18 @@ public class Watcher extends ApplicationAdapter {
 
 		batch.setProjectionMatrix(appState.cameras.sceneCamera.combined);
 		batch.begin();
+		if (Palette.paletteTexture != null) {
+			batch.setShader(paletteSwapShader);
+			appState.palette.paletteTexture.bind(1);
+			paletteSwapShader.setUniformi("u_palette", 1);
+			appState.workingAnimation.keyframe.getTexture().bind(0);
+			paletteSwapShader.setUniformi("u_texture", 0);
 
-		batch.setShader(paletteSwapShader);
-		appState.palette.paletteTexture.bind(1);
-		paletteSwapShader.setUniformi("u_palette", 1);
-		appState.workingAnimation.keyframe.getTexture().bind(0);
-		paletteSwapShader.setUniformi("u_texture", 0);
+			batch.setColor(appState.palette.paletteIndex / 255f, 1, 1, 1);
+			batch.draw(appState.workingAnimation.keyframe, whw - thw, whh - thh);
 
-		batch.setColor(appState.palette.paletteIndex /255f, 1, 1, 1);
-		batch.draw(appState.workingAnimation.keyframe, whw - thw, whh - thh);
-
-		batch.setShader(null);
+			batch.setShader(null);
+		}
 		batch.end();
 	}
 	
